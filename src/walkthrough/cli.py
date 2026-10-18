@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import typer
@@ -9,8 +10,9 @@ from rich.console import Console
 
 from . import __version__
 from .config import model_dir
+from .models import Guide
 from .pipeline import build_guide, image_paths
-from .render import write_guide
+from .render import render_existing, write_guide
 from .vlm import build_writer
 
 app = typer.Typer(help="Turn ordered screenshots into a step-by-step guide.", no_args_is_help=True)
@@ -42,6 +44,35 @@ def build(
     console.print(f"building {len(sources)} steps with {writer.name}")
     guide = build_guide(sources, writer=writer, title=title)
     outputs = write_guide(guide, sources, out)
+    console.print(f"wrote {outputs['markdown']}")
+    console.print(f"wrote {outputs['html']}")
+    console.print(f"wrote {outputs['bundle']}")
+
+
+@app.command("render")
+def render_command(
+    guide_path: Path = typer.Argument(..., exists=True, dir_okay=False),
+    out: Path = typer.Option(Path("walkthrough-rendered"), "--out", "-o"),
+    images: Path | None = typer.Option(None, "--images", help="Folder with step-N.png images."),
+) -> None:
+    """Re-render an edited guide JSON with its existing images."""
+    try:
+        guide = Guide.from_dict(json.loads(guide_path.read_text(encoding="utf-8")))
+    except (ValueError, TypeError) as exc:
+        raise typer.BadParameter(f"invalid guide JSON: {exc}") from exc
+    base = images or guide_path.parent / "images"
+    sources: list[Path] = []
+    for step in guide.steps:
+        candidates = [
+            base / f"step-{step.number}.png",
+            base / Path(step.image).name if step.image else base / f"step-{step.number}.png",
+            guide_path.parent / step.image if step.image else guide_path.parent,
+        ]
+        found = next((path for path in candidates if path.is_file()), None)
+        if found is None:
+            raise typer.BadParameter(f"image for step {step.number} not found under {base}")
+        sources.append(found)
+    outputs = render_existing(guide, sources, out)
     console.print(f"wrote {outputs['markdown']}")
     console.print(f"wrote {outputs['html']}")
     console.print(f"wrote {outputs['bundle']}")

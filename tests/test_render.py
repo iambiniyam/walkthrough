@@ -50,3 +50,19 @@ def test_write_guide_creates_bundle(tmp_path):
     assert outputs["bundle"].exists()
     assert (tmp_path / "out" / "images" / "step-1.png").exists()
     assert "data:image/png" in outputs["html"].read_text()
+
+
+def test_render_existing_guide_json(tmp_path):
+    import json
+
+    from walkthrough.models import Guide
+    from walkthrough.render import render_existing
+
+    source = tmp_path / "shot.png"
+    Image.new("RGB", (400, 300), "white").save(source)
+    first = write_guide(guide(), [source], tmp_path / "out")
+    loaded = Guide.from_dict(json.loads(first["json"].read_text()))
+    outputs = render_existing(loaded, [tmp_path / "out" / "images" / "step-1.png"], tmp_path / "again")
+    assert outputs["html"].exists()
+    assert "Print / Save as PDF" in outputs["html"].read_text()
+    assert (tmp_path / "again" / "images" / "step-1.png").exists()

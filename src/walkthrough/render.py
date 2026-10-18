@@ -116,6 +116,23 @@ code {{ font-family:ui-monospace,Menlo,monospace; }}
 </main></body></html>"""
 
 
+def _write_outputs(guide: Guide, images: list[Path], out_dir: Path) -> dict[str, Path]:
+    markdown = out_dir / "guide.md"
+    markdown.write_text(to_markdown(guide), encoding="utf-8")
+    page = out_dir / "guide.html"
+    page.write_text(to_html(guide, images), encoding="utf-8")
+    payload = out_dir / "guide.json"
+    payload.write_text(json.dumps(guide.to_dict(), indent=2), encoding="utf-8")
+    bundle = out_dir / "guide.zip"
+    with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as archive:
+        archive.write(markdown, "guide.md")
+        archive.write(page, "guide.html")
+        archive.write(payload, "guide.json")
+        for image in images:
+            archive.write(image, f"images/{image.name}")
+    return {"json": payload, "markdown": markdown, "html": page, "bundle": bundle}
+
+
 def write_guide(guide: Guide, sources: list[Path], out_dir: Path) -> dict[str, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     images_dir = out_dir / "images"
@@ -126,17 +143,24 @@ def write_guide(guide: Guide, sources: list[Path], out_dir: Path) -> dict[str, P
         annotate(source, step, target)
         annotated.append(target)
         step.image = f"images/step-{step.number}.png"
-    markdown = out_dir / "guide.md"
-    markdown.write_text(to_markdown(guide), encoding="utf-8")
-    page = out_dir / "guide.html"
-    page.write_text(to_html(guide, annotated), encoding="utf-8")
-    payload = out_dir / "guide.json"
-    payload.write_text(json.dumps(guide.to_dict(), indent=2), encoding="utf-8")
-    bundle = out_dir / "guide.zip"
-    with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as archive:
-        archive.write(markdown, "guide.md")
-        archive.write(page, "guide.html")
-        archive.write(payload, "guide.json")
-        for image in annotated:
-            archive.write(image, f"images/{image.name}")
-    return {"json": payload, "markdown": markdown, "html": page, "bundle": bundle}
+    return _write_outputs(guide, annotated, out_dir)
+
+
+def render_existing(guide: Guide, sources: list[Path], out_dir: Path) -> dict[str, Path]:
+    """Render an edited guide JSON using existing numbered images."""
+    if len(sources) != len(guide.steps):
+        raise ValueError(f"expected {len(guide.steps)} images, got {len(sources)}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    images_dir = out_dir / "images"
+    images_dir.mkdir(exist_ok=True)
+    images: list[Path] = []
+    for source, step in zip(sources, guide.steps):
+        target = images_dir / f"step-{step.number}.png"
+        if source.resolve() != target.resolve():
+            if source.suffix.lower() == ".png":
+                target.write_bytes(source.read_bytes())
+            else:
+                Image.open(source).convert("RGB").save(target, format="PNG")
+        images.append(target)
+        step.image = f"images/step-{step.number}.png"
+    return _write_outputs(guide, images, out_dir)
