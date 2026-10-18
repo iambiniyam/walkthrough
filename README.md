@@ -9,7 +9,7 @@ Drop a sequence of screenshots. walkthrough reads the interface labels, writes e
 
 ![walkthrough web UI](docs/demo.png)
 
-Status: v0.1.6. Local model, local review, no upload.
+Status: v0.1.7. Local model, local review, no upload.
 
 ## Why
 
@@ -118,7 +118,7 @@ The model must not invent buttons that are not in the OCR labels. The prompt say
 ```bash
 pnpm add walkthrough-render
 # or install the release tarball directly
-pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.6/walkthrough-render-0.1.0.tgz
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.7/walkthrough-render-0.1.0.tgz
 ```
 
 ```js
@@ -154,7 +154,7 @@ See [docs/performance.md](docs/performance.md) for measured timings and limits.
 pytest -q
 ```
 
-The suite has 17 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model. Suite size: 14 tests.
+The suite has 18 tests, including a Playwright/axe browser check of the initial and result states. covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model. Suite size: 14 tests.
 
 ## Roadmap
 

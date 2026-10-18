@@ -13,6 +13,11 @@
 - License: Apache 2.0
 - Installed as a Python dependency.
 
+## axe-core
+
+- License: MPL-2.0
+- A minified copy is vendored under `tests/axe.min.js` for the browser accessibility test only.
+
 ## Other dependencies
 
 - FastAPI, Uvicorn, Pillow, Typer, mlx-vlm. See `pyproject.toml`.
