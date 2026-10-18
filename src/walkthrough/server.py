@@ -22,7 +22,7 @@ MAX_UPLOAD = 12 * 1024 * 1024
 MAX_FILES = 20
 Image.MAX_IMAGE_PIXELS = 40_000_000
 
-app = FastAPI(title="walkthrough", version="0.1.3")
+app = FastAPI(title="walkthrough", version="0.1.4")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 writer = build_writer("auto")
 lock = threading.Lock()

@@ -9,7 +9,7 @@ Drop a sequence of screenshots. walkthrough reads the interface labels, writes e
 
 ![walkthrough web UI](docs/demo.png)
 
-Status: v0.1.3. Local model, local review, no upload.
+Status: v0.1.4. Local model, local review, no upload.
 
 ## Why
 
@@ -117,7 +117,7 @@ The model must not invent buttons that are not in the OCR labels. The prompt say
 ```bash
 pnpm add walkthrough-render
 # or install the release tarball directly
-pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.3/walkthrough-render-0.1.0.tgz
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.4/walkthrough-render-0.1.0.tgz
 ```
 
 ```js
@@ -149,7 +149,7 @@ The Python package and the npm package share the same guide JSON shape. The npm 
 pytest -q
 ```
 
-The suite has 12 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model.
+The suite has 13 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model.
 
 ## Roadmap
 
