@@ -39,7 +39,7 @@ walkthrough build ./shots --out guide --title "How to export a report"
 walkthrough serve
 ```
 
-The model is about 1.7 GB and needs Apple Silicon. The first request loads it in a few seconds. Each screenshot takes about 4 to 12 seconds.
+The release wheel is attached to the GitHub release. The model is about 1.7 GB and needs Apple Silicon. The first request loads it in a few seconds. Each screenshot takes about 4 to 12 seconds.
 
 Without the model:
 
@@ -109,6 +109,8 @@ The model must not invent buttons that are not in the OCR labels. The prompt say
 
 ```bash
 pnpm add walkthrough-render
+# or install the release tarball directly
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.0/walkthrough-render-0.1.0.tgz
 ```
 
 ```js
@@ -116,7 +118,7 @@ import { renderMarkdown } from "walkthrough-render";
 const markdown = renderMarkdown(guide);
 ```
 
-The Python package and the npm package share the same guide JSON shape. The npm package does not run a model.
+The Python package and the npm package share the same guide JSON shape. The npm package does not run a model. The release workflow uses npm trusted publishing; set the repository variable `PUBLISH_NPM=true` after configuring the package. Until then, install the tarball attached to the GitHub release.
 
 ## Privacy
 
