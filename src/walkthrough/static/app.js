@@ -10,6 +10,7 @@ const summary = document.getElementById("summary");
 const stepsBox = document.getElementById("steps");
 const bundle = document.getElementById("bundle");
 const htmlLink = document.getElementById("html");
+const printLink = document.getElementById("print");
 const markdownLink = document.getElementById("markdown");
 const jsonLink = document.getElementById("json");
 
@@ -114,6 +115,7 @@ function render(data) {
   stepsBox.innerHTML = data.guide.steps.map(renderStep).join("");
   bundle.href = data.downloads.bundle;
   htmlLink.href = data.downloads.html;
+  printLink.href = data.downloads.html;
   markdownLink.href = data.downloads.markdown;
   jsonLink.href = data.downloads.json;
   resultTitle.textContent = data.guide.title || "Review the guide";

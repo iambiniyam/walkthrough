@@ -7,6 +7,7 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
+from . import __version__
 from .config import model_dir
 from .pipeline import build_guide, image_paths
 from .render import write_guide
@@ -14,6 +15,16 @@ from .vlm import build_writer
 
 app = typer.Typer(help="Turn ordered screenshots into a step-by-step guide.", no_args_is_help=True)
 console = Console()
+
+
+@app.callback(invoke_without_command=True)
+def _root(
+    version: bool = typer.Option(False, "--version", is_eager=True, help="Show the version and exit."),
+) -> None:
+    if version:
+        console.print(__version__)
+        raise typer.Exit()
+
 
 
 @app.command()

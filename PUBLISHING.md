@@ -19,6 +19,6 @@ The GitHub release already contains a Python wheel and an npm tarball. Registry 
 ## Direct install
 
 ```bash
-pip install https://github.com/iambiniyam/walkthrough/releases/download/v0.1.0/walkthrough-0.1.0-py3-none-any.whl
-pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.0/walkthrough-render-0.1.0.tgz
+pip install https://github.com/iambiniyam/walkthrough/releases/download/v0.1.1/walkthrough-0.1.1-py3-none-any.whl
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.1/walkthrough-render-0.1.0.tgz
 ```

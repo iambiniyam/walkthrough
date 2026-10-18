@@ -99,8 +99,19 @@ img {{ display:block; max-width:100%; height:auto; border:1px solid var(--line);
 .callout {{ background:#fdecea; color:#5f1510; border-radius:8px; padding:8px 12px; display:inline-block; }}
 @media (prefers-color-scheme: dark) {{ .callout {{ background:#3a1f1c; color:#ffd9d4; }} }}
 code {{ font-family:ui-monospace,Menlo,monospace; }}
+.toolbar {{ display:flex; justify-content:flex-end; margin-bottom:20px; }}
+.print {{ border:1px solid var(--line); border-radius:8px; background:transparent; color:var(--ink); padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; }}
+.print:hover {{ border-color:var(--accent); }}
+@media print {{
+  .toolbar {{ display:none; }}
+  body {{ background:#fff; color:#111; }}
+  main {{ width:100%; padding:0; }}
+  .step {{ break-inside:avoid; border-color:#ccc; }}
+  .callout {{ background:#f2f2f2; color:#111; }}
+  img {{ max-height:70vh; object-fit:contain; }}
+}}
 </style></head>
-<body><main><h1>{html.escape(guide.title)}</h1><p class="summary">{html.escape(guide.summary)}</p>
+<body><main><div class="toolbar"><button class="print" type="button" onclick="window.print()">Print / Save as PDF</button></div><h1>{html.escape(guide.title)}</h1><p class="summary">{html.escape(guide.summary)}</p>
 {''.join(cards)}
 </main></body></html>"""
 

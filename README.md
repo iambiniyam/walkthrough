@@ -9,9 +9,11 @@ Drop a sequence of screenshots. walkthrough reads the interface labels, writes e
 
 ![walkthrough web UI](docs/demo.png)
 
-Status: v0.1.0. Local model, local review, no upload.
+Status: v0.1.1. Local model, local review, no upload.
 
 ## Why
+
+See [how this compares](docs/comparison.md) with the closest tools.
 
 Support teams, teachers, and operations teams write the same guides over and over. The usual options are a cloud recorder that captures every click, or an afternoon in a document editor.
 
@@ -25,6 +27,7 @@ walkthrough takes the screenshots you already have and writes the first draft. Y
 - Draws a numbered callout around the control named in each step.
 - Lets you edit every title, description, and callout.
 - Exports a Markdown guide, a standalone HTML page, JSON, and a ZIP with numbered images.
+- The standalone HTML includes a print button, so any browser can save the guide as PDF without a server renderer.
 - Includes an npm/pnpm renderer for guide JSON: `walkthrough-render`.
 
 ## Quickstart
@@ -110,7 +113,7 @@ The model must not invent buttons that are not in the OCR labels. The prompt say
 ```bash
 pnpm add walkthrough-render
 # or install the release tarball directly
-pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.0/walkthrough-render-0.1.0.tgz
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.1/walkthrough-render-0.1.0.tgz
 ```
 
 ```js
@@ -141,14 +144,13 @@ The Python package and the npm package share the same guide JSON shape. The npm 
 pytest -q
 ```
 
-The suite covers callout matching, the heuristic writer, guide building, annotation, Markdown and HTML rendering, and JSON round trips. It does not need the model.
+The suite has 7 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model.
 
 ## Roadmap
 
 - automatic browser capture with a Playwright extension
 - automatic step ordering
 - redaction of sensitive text before sharing a guide
-- PDF export
 - translations and right-to-left layouts
 - a hosted-free static guide viewer
 

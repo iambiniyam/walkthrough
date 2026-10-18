@@ -35,6 +35,8 @@ def test_html_is_standalone_and_escaped():
     page = to_html(guide())
     assert "<!doctype html>" in page
     assert "Open Export" in page
+    assert "Print / Save as PDF" in page
+    assert "@media print" in page
     assert "data:image/png" not in page
 
 
