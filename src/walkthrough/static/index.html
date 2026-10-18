@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>walkthrough: screenshots to a guide</title>
+  <link rel="stylesheet" href="/static/app.css"><script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="masthead shell">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 8h6M7 12h10M7 16h4"></path></svg></span>
+      <div><a class="brand-name" href="/">walkthrough</a><p class="brand-tag">Screenshots in, a clear guide out.</p></div>
+    </div>
+    <p class="local-badge"><span class="local-dot" aria-hidden="true"></span> Local only</p>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="panel" aria-labelledby="page-title">
+      <h1 id="page-title" class="sr-only">Build a walkthrough</h1>
+      <label class="drop" id="drop" for="files">
+        <span class="drop-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="m7 9 5-5 5 5"></path><path d="M5 16v3h14v-3"></path></svg></span>
+        <strong>Drop screenshots in order</strong>
+        <span class="drop-help">or click to choose. JPG, PNG, WebP up to 12 MB each.</span>
+      </label>
+      <input id="files" type="file" accept="image/*" multiple hidden>
+      <ul id="file-list" class="file-list" aria-live="polite"></ul>
+      <div class="field"><label for="title">Guide title <span class="optional">optional</span></label><input id="title" type="text" maxlength="100" placeholder="How to export a report"></div>
+      <div class="controls"><button id="go" class="btn" type="button">Build guide</button><p id="status" class="status" role="status" aria-live="polite"></p></div>
+    </section>
+
+    <section id="result" class="result" hidden aria-labelledby="result-title">
+      <div class="result-head"><h2 id="result-title" tabindex="-1">Review the guide</h2><p id="summary" class="meta"></p></div>
+      <div id="steps" class="steps"></div>
+      <div class="actions">
+        <a id="bundle" class="btn" href="#">Download bundle (.zip)</a>
+        <a id="html" class="btn ghost" href="#">HTML</a>
+        <a id="markdown" class="btn ghost" href="#">Markdown</a>
+        <a id="json" class="btn ghost" href="#">JSON</a>
+      </div>
+      <p class="note">The bundle contains the generated text and numbered screenshots. Edit the fields above before publishing; the downloaded files use the generated text.</p>
+    </section>
+  </main>
+
+  <footer class="footer shell"><p><strong>Local only.</strong> Screenshots are processed on this machine and are not uploaded. <a href="https://github.com/iambiniyam/walkthrough">Source on GitHub</a></p></footer>
+</body>
+</html>

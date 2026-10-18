@@ -1,0 +1,30 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv pip install --system -e ".[dev]"
+      - run: ruff check .
+      - run: pytest -q
+  npm:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/walkthrough-render
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: npm test

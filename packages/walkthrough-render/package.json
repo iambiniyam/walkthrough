@@ -1,0 +1,28 @@
+{
+  "name": "walkthrough-render",
+  "version": "0.1.0",
+  "description": "Render walkthrough guide JSON as Markdown or accessible HTML.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["walkthrough", "documentation", "markdown", "html", "screenshots"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iambiniyam/walkthrough.git",
+    "directory": "packages/walkthrough-render"
+  },
+  "homepage": "https://github.com/iambiniyam/walkthrough",
+  "publishConfig": {"access": "public"},
+  "engines": {"node": ">=18"}
+}
