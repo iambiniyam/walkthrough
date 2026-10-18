@@ -2,6 +2,7 @@ const fileInput = document.getElementById("files");
 const drop = document.getElementById("drop");
 const fileList = document.getElementById("file-list");
 const titleInput = document.getElementById("title");
+const redactInput = document.getElementById("redact");
 const go = document.getElementById("go");
 const statusLine = document.getElementById("status");
 const result = document.getElementById("result");
@@ -132,6 +133,7 @@ async function build() {
   const body = new FormData();
   for (const file of state.files) body.append("files", file);
   body.append("title", titleInput.value.trim() || "Step-by-step guide");
+  body.append("redact", redactInput.checked ? "true" : "false");
   try {
     const response = await fetch("/api/build", { method: "POST", body });
     if (!response.ok) {

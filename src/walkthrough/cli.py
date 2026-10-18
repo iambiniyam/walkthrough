@@ -35,6 +35,7 @@ def build(
     out: Path = typer.Option(Path("walkthrough-out"), "--out", "-o"),
     title: str = typer.Option("Step-by-step guide", "--title"),
     model: str = typer.Option("auto", "--model", help="auto, qwen, or heuristic"),
+    redact: bool = typer.Option(True, "--redact/--no-redact", help="Mask emails, phones, cards, and IDs."),
 ) -> None:
     """Build a guide from screenshots or a folder."""
     sources = image_paths([str(path) for path in paths])
@@ -42,7 +43,7 @@ def build(
         raise typer.Exit("no images found")
     writer = build_writer(model)
     console.print(f"building {len(sources)} steps with {writer.name}")
-    guide = build_guide(sources, writer=writer, title=title)
+    guide = build_guide(sources, writer=writer, title=title, redact=redact)
     outputs = write_guide(guide, sources, out)
     console.print(f"wrote {outputs['markdown']}")
     console.print(f"wrote {outputs['html']}")

@@ -15,6 +15,7 @@ class Step:
     bbox: tuple[float, float, float, float] | None = None
     image_size: tuple[int, int] | None = None
     confidence: float = 0.0
+    masks: list[tuple[float, float, float, float]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -26,6 +27,7 @@ class Step:
             "bbox": list(self.bbox) if self.bbox else None,
             "image_size": list(self.image_size) if self.image_size else None,
             "confidence": round(self.confidence, 3),
+            "masks": [list(box) for box in self.masks],
         }
 
     @classmethod
@@ -41,6 +43,11 @@ class Step:
             bbox=tuple(float(value) for value in bbox) if bbox else None,
             image_size=tuple(int(value) for value in size) if size else None,
             confidence=float(data.get("confidence") or 0.0),
+            masks=[
+                tuple(float(value) for value in box)
+                for box in data.get("masks", [])
+                if isinstance(box, (list, tuple)) and len(box) == 4
+            ],
         )
 
 

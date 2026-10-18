@@ -77,3 +77,6 @@ textarea { min-height:72px; padding:10px 12px; border:1px solid var(--line); bor
   .result-head { flex-direction:column; gap:2px; }
 }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+
+.check { display:flex; align-items:center; gap:8px; margin-top:12px; font-size:.875rem; }
+.check input { width:18px; height:18px; accent-color:var(--accent); }

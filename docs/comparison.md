@@ -9,7 +9,8 @@
 
 - Works from screenshots you already have, with no recorder and no account.
 - Qwen writes the steps, RapidOCR supplies exact labels, and the callout box is drawn locally.
-- The guide is editable, re-renderable from JSON, and exports Markdown, standalone HTML, JSON, and a ZIP.
+- The guide is editable, re-renderable from JSON, and masks common PII before export.
+- It exports Markdown, standalone HTML, JSON, and a ZIP.
 - The npm renderer turns the same JSON into a page without Python.
 
 ## Tradeoff

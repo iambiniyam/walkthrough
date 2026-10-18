@@ -22,7 +22,7 @@ MAX_UPLOAD = 12 * 1024 * 1024
 MAX_FILES = 20
 Image.MAX_IMAGE_PIXELS = 40_000_000
 
-app = FastAPI(title="walkthrough", version="0.1.2")
+app = FastAPI(title="walkthrough", version="0.1.3")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 writer = build_writer("auto")
 lock = threading.Lock()
@@ -42,6 +42,7 @@ def health() -> dict[str, object]:
 async def build(
     files: list[UploadFile] = File(...),
     title: str = Form("Step-by-step guide"),
+    redact: bool = Form(True),
 ) -> JSONResponse:
     if len(files) > MAX_FILES:
         raise HTTPException(status_code=400, detail=f"too many screenshots (max {MAX_FILES})")
@@ -68,7 +69,12 @@ async def build(
 
     try:
         with lock:
-            guide = build_guide(sources, writer=writer, title=title.strip() or "Step-by-step guide")
+            guide = build_guide(
+                sources,
+                writer=writer,
+                title=title.strip() or "Step-by-step guide",
+                redact=redact,
+            )
         outputs = write_guide(guide, sources, folder)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc

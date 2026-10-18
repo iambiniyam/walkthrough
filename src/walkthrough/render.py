@@ -16,6 +16,9 @@ from .models import Guide
 def annotate(source: Path, step, output: Path) -> Path:
     image = Image.open(source).convert("RGB")
     draw = ImageDraw.Draw(image)
+    for x0, y0, x1, y1 in step.masks:
+        pad = max(2, round(image.width * 0.003))
+        draw.rectangle((x0 - pad, y0 - pad, x1 + pad, y1 + pad), fill=(20, 20, 20))
     if step.bbox:
         x0, y0, x1, y1 = step.bbox
         pad = max(4, round(image.width * 0.006))
