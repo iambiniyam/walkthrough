@@ -144,6 +144,10 @@ The Python package and the npm package share the same guide JSON shape. The npm 
 - The current model runtime is Apple Silicon only.
 - Redaction is pattern-based. A name, address, or unusual account number can still be visible. Review the screenshots.
 
+## Performance
+
+See [docs/performance.md](docs/performance.md) for measured timings and limits.
+
 ## Tests
 
 ```bash
