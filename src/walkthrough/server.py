@@ -22,7 +22,7 @@ MAX_UPLOAD = 12 * 1024 * 1024
 MAX_FILES = 20
 Image.MAX_IMAGE_PIXELS = 40_000_000
 
-app = FastAPI(title="walkthrough", version="0.1.4")
+app = FastAPI(title="walkthrough", version="0.1.5")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 writer = build_writer("auto")
 lock = threading.Lock()
@@ -61,9 +61,10 @@ async def build(
         target = sources_dir / f"{index:02d}{suffix}"
         target.write_bytes(payload)
         try:
-            image = Image.open(target)
-            image.load()
+            with Image.open(target) as image:
+                image.load()
         except Exception as exc:
+            shutil.rmtree(folder, ignore_errors=True)
             raise HTTPException(status_code=400, detail=f"{upload.filename}: not a readable image") from exc
         sources.append(target)
 
