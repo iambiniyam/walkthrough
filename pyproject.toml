@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "walkthrough"
-version = "0.1.5"
+version = "0.1.6"
 description = "Turn ordered screenshots into a step-by-step guide, locally."
 readme = "README.md"
 license = { text = "MIT" }

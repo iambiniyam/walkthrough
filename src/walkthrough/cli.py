@@ -11,6 +11,7 @@ from rich.console import Console
 from . import __version__
 from .config import model_dir
 from .models import Guide
+from .order import order_paths
 from .pipeline import build_guide, image_paths
 from .render import render_existing, write_guide
 from .vlm import build_writer
@@ -36,11 +37,15 @@ def build(
     title: str = typer.Option("Step-by-step guide", "--title"),
     model: str = typer.Option("auto", "--model", help="auto, qwen, or heuristic"),
     redact: bool = typer.Option(True, "--redact/--no-redact", help="Mask emails, phones, cards, and IDs."),
+    auto_order: bool = typer.Option(False, "--auto-order", help="Sort by likely action words before building."),
 ) -> None:
     """Build a guide from screenshots or a folder."""
     sources = image_paths([str(path) for path in paths])
     if not sources:
         raise typer.Exit("no images found")
+    if auto_order:
+        sources = order_paths(sources)
+        console.print("ordered screenshots by OCR action words")
     writer = build_writer(model)
     console.print(f"building {len(sources)} steps with {writer.name}")
     guide = build_guide(sources, writer=writer, title=title, redact=redact)

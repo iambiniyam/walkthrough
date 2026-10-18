@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from PIL import Image
 
 from .config import output_root
+from .order import order_paths
 from .pipeline import IMAGE_SUFFIXES, build_guide
 from .render import write_guide
 from .vlm import build_writer
@@ -22,7 +23,7 @@ MAX_UPLOAD = 12 * 1024 * 1024
 MAX_FILES = 20
 Image.MAX_IMAGE_PIXELS = 40_000_000
 
-app = FastAPI(title="walkthrough", version="0.1.5")
+app = FastAPI(title="walkthrough", version="0.1.6")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 writer = build_writer("auto")
 lock = threading.Lock()
@@ -43,6 +44,7 @@ async def build(
     files: list[UploadFile] = File(...),
     title: str = Form("Step-by-step guide"),
     redact: bool = Form(True),
+    auto_order: bool = Form(False),
 ) -> JSONResponse:
     if len(files) > MAX_FILES:
         raise HTTPException(status_code=400, detail=f"too many screenshots (max {MAX_FILES})")
@@ -69,6 +71,8 @@ async def build(
         sources.append(target)
 
     try:
+        if auto_order:
+            sources = order_paths(sources)
         with lock:
             guide = build_guide(
                 sources,

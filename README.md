@@ -9,7 +9,7 @@ Drop a sequence of screenshots. walkthrough reads the interface labels, writes e
 
 ![walkthrough web UI](docs/demo.png)
 
-Status: v0.1.5. Local model, local review, no upload.
+Status: v0.1.6. Local model, local review, no upload.
 
 ## Why
 
@@ -40,6 +40,7 @@ uv pip install -e ".[dev,model]"
 python scripts/download_model.py
 walkthrough build ./shots --out guide --title "How to export a report"
 walkthrough build ./shots --out guide --no-redact  # keep every pixel
+walkthrough build ./shots --out guide --auto-order  # sort by likely actions
 walkthrough serve
 ```
 
@@ -117,7 +118,7 @@ The model must not invent buttons that are not in the OCR labels. The prompt say
 ```bash
 pnpm add walkthrough-render
 # or install the release tarball directly
-pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.5/walkthrough-render-0.1.0.tgz
+pnpm add https://github.com/iambiniyam/walkthrough/releases/download/v0.1.6/walkthrough-render-0.1.0.tgz
 ```
 
 ```js
@@ -149,12 +150,11 @@ The Python package and the npm package share the same guide JSON shape. The npm 
 pytest -q
 ```
 
-The suite has 14 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model. Suite size: 14 tests.
+The suite has 17 tests covering callout matching, the heuristic writer, guide building, annotation, Markdown and print-ready HTML rendering, and JSON round trips. It does not need the model. Suite size: 14 tests.
 
 ## Roadmap
 
 - automatic browser capture with a Playwright extension
-- automatic step ordering
 - redaction of sensitive text before sharing a guide
 - translations and right-to-left layouts
 - a hosted-free static guide viewer

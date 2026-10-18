@@ -3,6 +3,7 @@ const drop = document.getElementById("drop");
 const fileList = document.getElementById("file-list");
 const titleInput = document.getElementById("title");
 const redactInput = document.getElementById("redact");
+const autoOrderInput = document.getElementById("auto-order");
 const go = document.getElementById("go");
 const statusLine = document.getElementById("status");
 const result = document.getElementById("result");
@@ -134,6 +135,7 @@ async function build() {
   for (const file of state.files) body.append("files", file);
   body.append("title", titleInput.value.trim() || "Step-by-step guide");
   body.append("redact", redactInput.checked ? "true" : "false");
+  body.append("auto_order", autoOrderInput.checked ? "true" : "false");
   try {
     const response = await fetch("/api/build", { method: "POST", body });
     if (!response.ok) {
