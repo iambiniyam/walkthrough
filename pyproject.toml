@@ -29,7 +29,7 @@ dependencies = [
 [project.optional-dependencies]
 model = ["mlx-vlm>=0.7.8"]
 browser = ["playwright>=1.49"]
-dev = ["httpx>=0.27", "pytest>=8.3", "ruff>=0.6"]
+dev = ["httpx>=0.27", "pytest>=9.2.0", "ruff>=0.6"]
 
 [project.scripts]
 walkthrough = "walkthrough.cli:app"
